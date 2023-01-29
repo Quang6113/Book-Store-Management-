@@ -58,7 +58,7 @@ public class BookList {
             System.out.print("Enter again: ");
         }
         if (Validation.checkPIdNoneMatch(id, publisherList)) {
-            System.err.println("Publisher’s Id is not found");
+            System.err.println("Publisher's Id is not found");
         } //noneMatch true, return null
         else {
             //Id
@@ -125,7 +125,7 @@ public class BookList {
                 return x;
             }
         }
-        System.out.println("Book’s Name does not exist");
+        System.out.println("Book's Name does not exist");
         return null;
     }
 
