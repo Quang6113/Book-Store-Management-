@@ -1,8 +1,6 @@
 
 import bsm.entities.Book;
-import bsm.entities.BookList;
 import bsm.entities.Publisher;
-import bsm.entities.PublisherList;
 import bsm.services.BookServices;
 import bsm.services.PublisherServices;
 
