@@ -197,7 +197,7 @@ public class BookList {
             
             if (Validation.checkPIdAnyMatch(id, publisherList)) {
                 System.err.println("Please create publisher before update this book!");
-            } //noneMatch false, return null
+            } 
             else {
                 //Id
                 System.out.print("Book's ID (Bxxxxx): ");
