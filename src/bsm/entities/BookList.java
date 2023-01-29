@@ -195,7 +195,7 @@ public class BookList {
                 System.out.print("Enter again: ");
             }
             
-            if (!Validation.checkPIdNoneMatch(id, publisherList)) {
+            if (Validation.checkPIdAnyMatch(id, publisherList)) {
                 System.err.println("Please create publisher before update this book!");
             } //noneMatch false, return null
             else {

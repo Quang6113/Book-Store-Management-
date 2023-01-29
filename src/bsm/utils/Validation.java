@@ -26,6 +26,10 @@ public class Validation {
     public static boolean checkPIdNoneMatch(String id, List<Publisher> publisherList) {
         return publisherList.stream().noneMatch((e) -> (e.getId().equals(id)));
     }
+
+    public static boolean checkPIdAnyMatch(String id, List<Publisher> publisherList) {
+        return publisherList.stream().anyMatch((e) -> (e.getId().equals(id)));
+    }
     
     public static boolean checkPId(String id){
         return id.matches("P\\d{5}");
