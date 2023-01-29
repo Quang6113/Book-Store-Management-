@@ -18,14 +18,14 @@ public class BookStoreManagement {
 
         do {
             System.out.println("\n====== BOOK STORE MANAGEMENT ======\n"
-                    + "1. Publishers’ management\n"
+                    + "1. Publishers' management\n"
                     + "2. Books' management\n"
                     + "3. Quit.");
             System.out.print("Your choice: ");
             choice = Validation.getUserChoice(1, 3);
             switch (choice) {
                 case 1:
-                    System.out.println("\n----- Publishers’ management -----\n"
+                    System.out.println("\n----- Publishers' management -----\n"
                             + "1. Create a Publisher\n"
                             + "2. Delete the Publisher\n"
                             + "3. Save the Publishers list to file\n"

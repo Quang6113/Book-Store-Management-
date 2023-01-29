@@ -29,10 +29,9 @@ public class BookList {
     private double price = 0;
     private int quantity = 0;
     private String status = "";
-    private final File f = new File("book.dat");
-
+    
     public BookList() {
-        bookList = new ArrayList();
+        bookList = new ArrayList<Book>();
     }
 
     public BookList(List<Book> bookList) {
