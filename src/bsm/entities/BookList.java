@@ -20,6 +20,7 @@ import java.util.StringTokenizer;
  *
  * @author QUANG
  */
+
 public class BookList {
 
     private final List<Book> bookList;
@@ -57,7 +58,7 @@ public class BookList {
             System.err.println("Invalid!");
             System.out.print("Enter again: ");
         }
-        if (Validation.checkPIdNoneMatch(id, publisherList)) {
+        if (Validation.checkPIdNoneMatch(pId, publisherList)) {
             System.err.println("Publisher's Id is not found");
         } //noneMatch true, return null
         else {
@@ -199,14 +200,6 @@ public class BookList {
                 System.err.println("Please create publisher before update this book!");
             } 
             else {
-                //Id
-                System.out.print("Book's ID (Bxxxxx): ");
-                while (Validation.checkBIdNoneMatch((id = Validation.getUpdateInput(id)), bookList)
-                        && !(Validation.checkBId(id))) {
-                    System.err.println("Invalid!");
-                    System.out.print("Enter again: ");
-                }
-
                 //Name
                 System.out.print("Name (5-30 characters): ");
                 while (!Validation.checkName(name = Validation.getUpdateInput(name))) {
@@ -242,7 +235,6 @@ public class BookList {
                         status = b.getStatus();
                 }
                 
-                b.setId(id);
                 b.setName(name);
                 b.setPrice(price);
                 b.setPId(pId);

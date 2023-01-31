@@ -54,8 +54,8 @@ public class PublisherList {
 
         //Id
         System.out.print("Publisher's ID (Pxxxxx): ");
-        while (!(Validation.checkPIdNoneMatch((id = Validation.getInput(id)), publisherList) 
-                && Validation.checkPId(id))) {
+        while (Validation.checkPIdAnyMatch((id = Validation.getInput(id)), publisherList) 
+                && !Validation.checkPId(id)) {
                 System.err.println("Invalid!");
                 System.out.print("Enter again: ");
         }

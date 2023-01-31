@@ -80,6 +80,7 @@ public class BookServices {
             }
             
         } 
+
         //search by name
         else {
             System.out.print("Enter a part of Book's name: ");           
@@ -135,7 +136,9 @@ public class BookServices {
         if (bl.saveToFile(f)) {
             System.out.println("Success");
         }
-        System.out.println("Fail");
+        else{
+            System.out.println("Fail");
+        }
     }
 
     public void printTheBookListFromFile(HashMap<String, String> pIdMap) {

@@ -141,13 +141,13 @@ public class Validation {
         return input;
     }
             
-    public static int backToMainMenu(int mainChoice) {
-        System.out.println("Do you want to go back to the main menu?");
+    public static int backToMainMenu(int mainChoice, boolean checkSave) {
+        System.out.println("\nDo you want to go back to the main menu?");
         System.out.print("Your choice (1. Yes || 0. No): ");
         int choice = Validation.getUserChoice(0, 1);
-        if (choice == 0) {
-            System.out.println("Do you want to save to the file before leaving?");
-            System.out.println("If you didn't save the file before, your new data will not be store");
+        if ((choice == 0 && checkSave == false) || choice == 0) {
+            System.out.println("\nWant to save to the file before leaving?");
+            System.out.println("If you choose \"No\", your changes will not be store");
             System.out.print("Your choice(1. Yes || 0. No): ");
             int subChoice = Validation.getUserChoice(0, 1);
             if (subChoice == 1) {

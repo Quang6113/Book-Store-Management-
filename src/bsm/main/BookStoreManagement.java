@@ -13,6 +13,7 @@ public class BookStoreManagement {
     public static void main(String[] args) {
         int choice = 0;
         int subChoice = 0;
+        boolean checkSave = true;
         PublisherServices ps = PublisherServices.getInstance();
         BookServices bs = BookServices.getInstance();
 
@@ -35,19 +36,22 @@ public class BookStoreManagement {
                     switch (subChoice) {
                         case 1:
                             ps.create();
-                            choice = Validation.backToMainMenu(choice);
+                            checkSave = false;
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 2:
                             ps.delete(ps.getList().getPublisherList());
-                            choice = Validation.backToMainMenu(choice);
+                            checkSave = false;
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 3:
                             ps.saveThePublisherList();
-                            choice = Validation.backToMainMenu(choice);
+                            checkSave = true;
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 4:
                             ps.printThePublisherListFromFiles();
-                            choice = Validation.backToMainMenu(choice);
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                     }
                     break;
@@ -64,30 +68,34 @@ public class BookStoreManagement {
                     switch (subChoice) {
                         case 1:
                             bs.create(ps.getList().getPublisherList());
-                            choice = Validation.backToMainMenu(choice);
+                            choice = Validation.backToMainMenu(choice,checkSave);
+                            checkSave = false;
                             break;
                         case 2:
                             bs.search(ps.getList().getPublisherList(),
                                     ps.getList().getPIdMap());
-                            choice = Validation.backToMainMenu(choice);
+                                    choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 3:
                             bs.update(ps.getList().getPublisherList(), 
                                     bs.getList().getBookList());
-                            choice = Validation.backToMainMenu(choice);
+                                    checkSave = false;
+                                    choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 4:
                             bs.delete(ps.getList().getPublisherList(), 
                                     bs.getList().getBookList());
-                            choice = Validation.backToMainMenu(choice);
+                                    checkSave = false;
+                                    choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 5:
                             bs.saveTheBookList();
-                            choice = Validation.backToMainMenu(choice);
+                            checkSave = true;
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                         case 6:
                             bs.printTheBookListFromFile(ps.getList().getPIdMap());
-                            choice = Validation.backToMainMenu(choice);
+                            choice = Validation.backToMainMenu(choice,checkSave);
                             break;
                     }
                     break;
