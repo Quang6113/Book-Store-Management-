@@ -137,7 +137,7 @@ public class BookList {
 
         // print
         if (b != null) {
-            System.out.println("---" + b.getId() + " - " + b.getName() + " - " + b.getPId() + "---");
+            System.out.println("CURRENT BOOK: " + b.getId() + " - " + b.getName() + " - " + b.getPId());
         }
 
         return b;

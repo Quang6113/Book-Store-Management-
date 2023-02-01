@@ -92,14 +92,20 @@ public class PublisherList {
             System.out.println("Enter gain: ");
         }
 
-        for (Publisher x : publisherList) {
-            if (x.getId().equals(id)) {
-                System.out.println("---" + x.getId() + " - " + x.getName() + "---");
-                return x;
-            }
+        Publisher p = publisherList.stream()
+                .filter(x -> x.getId().equals(id))
+                .findAny()
+                .orElse(null);
+
+        if (p != null) {
+            System.out.println("CURRENT PUBLISHER: " + p.getId() + " - " + p.getName());
         }
-        System.out.println("Publisher's Id does not exist");
-        return null;
+
+        else {
+            System.out.println("Publisher's Id does not exist");
+        }
+
+        return p;
     }
 
     public boolean deletePublisher(Publisher p) {
@@ -115,9 +121,7 @@ public class PublisherList {
 
         try (FileWriter fw = new FileWriter(f, append); // override: append
                 PrintWriter pw = new PrintWriter(fw)) {
-            publisherList.forEach((e) -> {
-                pw.println(e.getId() + "," + e.getName() + "," + e.getPhoneNum());
-            });
+            publisherList.forEach((e) -> pw.println(e.getId() + "," + e.getName() + "," + e.getPhoneNum()));
 
             return true;
         } catch (Exception e) {
