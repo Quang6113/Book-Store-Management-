@@ -19,7 +19,7 @@ public class Test {
     public static void main(String[] args) {
         PublisherServices ps = PublisherServices.getInstance();
         BookServices bs = BookServices.getInstance();
-        
+
         Publisher p = new Publisher("P00001", "quang", "0123456789");
         ps.getList().addPublisher(p);
         p = new Publisher("P00002", "luan", "0123456789");
@@ -37,10 +37,6 @@ public class Test {
         b = new Book("B00004", "How to fly", 50000, 200, " Available", "P00002");
         bs.getList().addBook(b);
         bs.getList().displayBook(ps.getList().getPIdMap());
-        
-        bs.search(ps.getList().getPublisherList(), ps.getList().getPIdMap());
-        bs.search(ps.getList().getPublisherList(), ps.getList().getPIdMap());
-        //name, null
-        
+        // name, null
     }
 }
