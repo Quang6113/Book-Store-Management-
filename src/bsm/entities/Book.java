@@ -22,7 +22,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String id, String name, double price, int quantity, 
+    public Book(String id, String name, double price, int quantity,
             String status, String pId) {
         this.id = id;
         this.name = name;
@@ -80,11 +80,11 @@ public class Book {
         this.pId = PID;
     }
 
-    public double SubTotal(double price, int quantity){
-        double SubTotal = price*quantity;
+    public double SubTotal(double price, int quantity) {
+        double SubTotal = price * quantity;
         return SubTotal;
     }
-    
+
     public void display(HashMap<String, String> PIdMap) {
         System.out.printf("|%6s|", id);
         System.out.printf("%30s|", name);

@@ -30,7 +30,7 @@ public class BookList {
     private double price = 0;
     private int quantity = 0;
     private String status = "";
-    
+
     public BookList() {
         bookList = new ArrayList<Book>();
     }
@@ -44,15 +44,15 @@ public class BookList {
     }
 
     public Book createBook(List<Publisher> publisherList) {
-        //pId
+        // pId
         System.out.println("Make sure the publisher is created before adding "
                 + "this book!");
-        
+
         System.out.println("Valid publisher");
-            publisherList.forEach((e) -> {
-                System.out.println(e.getId() + " - " + e.getName());
-            });
-            
+        publisherList.forEach((e) -> {
+            System.out.println(e.getId() + " - " + e.getName());
+        });
+
         System.out.print("\nPublisher's ID (Pxxxxx): ");
         while (!Validation.checkPId(pId = Validation.getInput(pId))) {
             System.err.println("Invalid!");
@@ -60,9 +60,9 @@ public class BookList {
         }
         if (Validation.checkPIdNoneMatch(pId, publisherList)) {
             System.err.println("Publisher's Id is not found");
-        } //noneMatch true, return null
+        } // noneMatch true, return null
         else {
-            //Id
+            // Id
             System.out.print("Book's ID (Bxxxxx): ");
             while (!(Validation.checkBIdNoneMatch((id = Validation.getInput(id)), bookList))
                     && Validation.checkBId(id)) {
@@ -70,28 +70,28 @@ public class BookList {
                 System.out.print("Enter again: ");
             }
 
-            //Name
+            // Name
             System.out.print("Name (5-30 characters): ");
             while (!Validation.checkName(name = Validation.getInput(name))) {
                 System.err.println("Invalid!");
                 System.out.print("Enter again: ");
             }
 
-            //Price
+            // Price
             System.out.print("Price (greater than 0): ");
             while (!Validation.checkPrice(price = Validation.getInput(price))) {
                 System.err.println("Invalid!");
                 System.out.print("Enter again: ");
             }
 
-            //Quantity
+            // Quantity
             System.out.print("Quantity (greater than 0): ");
             while (!Validation.checkPrice(quantity = Validation.getInput(quantity))) {
                 System.err.println("Invalid!");
                 System.out.print("Enter again: ");
             }
 
-            //Status
+            // Status
             System.out.print("Status (1. Available, 2. Not Available): ");
             int choice = Validation.getUserChoice(1, 2);
             if (choice == 1) {
@@ -121,8 +121,8 @@ public class BookList {
 
         for (Book x : bookList) {
             if (x.getId().equals(id)) {
-                System.out.println("---" + x.getId() + " - " 
-                        + x.getName()+ "---\n");
+                System.out.println("---" + x.getId() + " - "
+                        + x.getName() + "---\n");
                 return x;
             }
         }
@@ -130,7 +130,7 @@ public class BookList {
         return null;
     }
 
-    public List<Book> searchBookByPublisherId(String id) {   
+    public List<Book> searchBookByPublisherId(String id) {
         while (!Validation.checkPId(id)) {
             System.out.println("Invalid!");
             System.out.println("Enter gain: ");
@@ -144,8 +144,7 @@ public class BookList {
         }
 
         if (!result.isEmpty()) {
-            result.sort((Book b1, Book b2) -> 
-                    b1.getName().compareToIgnoreCase(b2.getName()));
+            result.sort((Book b1, Book b2) -> b1.getName().compareToIgnoreCase(b2.getName()));
             return result;
         }
         return null;
@@ -160,8 +159,7 @@ public class BookList {
         }
 
         if (!result.isEmpty()) {
-            result.sort((Book b1, Book b2) -> 
-                    b1.getName().compareToIgnoreCase(b2.getName()));
+            result.sort((Book b1, Book b2) -> b1.getName().compareToIgnoreCase(b2.getName()));
             return result;
         }
         return null;
@@ -195,33 +193,32 @@ public class BookList {
                 System.err.println("Invalid!");
                 System.out.print("Enter again: ");
             }
-            
+
             if (Validation.checkPIdAnyMatch(id, publisherList)) {
                 System.err.println("Please create publisher before update this book!");
-            } 
-            else {
-                //Name
+            } else {
+                // Name
                 System.out.print("Name (5-30 characters): ");
                 while (!Validation.checkName(name = Validation.getUpdateInput(name))) {
                     System.err.println("Invalid!");
                     System.out.print("Enter again: ");
                 }
 
-                //Price
+                // Price
                 System.out.print("Price (greater than 0): ");
                 while (!Validation.checkPrice(price = Validation.getUpdateInput(price))) {
                     System.err.println("Invalid!");
                     System.out.print("Enter again: ");
                 }
 
-                //Quantity
+                // Quantity
                 System.out.print("Quantity (greater than 0): ");
                 while (!Validation.checkPrice(quantity = Validation.getUpdateInput(quantity))) {
                     System.err.println("Invalid!");
                     System.out.print("Enter again: ");
                 }
 
-                //Status
+                // Status
                 System.out.print("Status (1. Available, 2. Not Available, 0. Not update): ");
                 int choice = Validation.getUserChoice(0, 2);
                 switch (choice) {
@@ -234,13 +231,13 @@ public class BookList {
                     case 0:
                         status = b.getStatus();
                 }
-                
+
                 b.setName(name);
                 b.setPrice(price);
                 b.setPId(pId);
                 b.setQuantity(quantity);
                 b.setStatus(status);
-                
+
                 return true;
             }
         }

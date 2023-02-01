@@ -9,7 +9,7 @@ package bsm.entities;
  *
  * @author QUANG
  */
-public class Publisher{
+public class Publisher {
     public String id;
     private String name;
     private String phoneNum;
@@ -17,7 +17,6 @@ public class Publisher{
     public Publisher() {
     }
 
-    
     public Publisher(String id, String name, String phoneNum) {
         this.id = id;
         this.name = name;
@@ -47,7 +46,7 @@ public class Publisher{
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
-    
+
     public void display() {
         System.out.printf("|%6s|", id);
         System.out.printf("%30s|", name);

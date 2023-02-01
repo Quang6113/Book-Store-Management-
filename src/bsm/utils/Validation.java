@@ -22,7 +22,7 @@ public class Validation {
     public static boolean checkPhone(String phone) {
         return phone.matches("\\d{10,12}");
     }
-    
+
     public static boolean checkPIdNoneMatch(String id, List<Publisher> publisherList) {
         return publisherList.stream().noneMatch((e) -> (e.getId().equals(id)));
     }
@@ -30,23 +30,23 @@ public class Validation {
     public static boolean checkPIdAnyMatch(String id, List<Publisher> publisherList) {
         return publisherList.stream().anyMatch((e) -> (e.getId().equals(id)));
     }
-    
-    public static boolean checkPId(String id){
+
+    public static boolean checkPId(String id) {
         return id.matches("P\\d{5}");
     }
-    
-    public static boolean checkBIdNoneMatch(String id, List<Book> bookList){
+
+    public static boolean checkBIdNoneMatch(String id, List<Book> bookList) {
         return bookList.stream().noneMatch((e) -> (e.getId().equals(id)));
     }
-    
-    public static boolean checkBId(String id){
+
+    public static boolean checkBId(String id) {
         return id.matches("B\\d{5}");
     }
-    
-    public static boolean checkName(String name){
-        return name.length()>=5 && name.length()<=30;
+
+    public static boolean checkName(String name) {
+        return name.length() >= 5 && name.length() <= 30;
     }
-    
+
     public static boolean checkPrice(double price) {
         return (price > 0);
     }
@@ -54,26 +54,26 @@ public class Validation {
     public static boolean checkQuantity(int quantity) {
         return (quantity > 0);
     }
-    
-    public static boolean checkPublisherListIsEmpty (List<Publisher> publisherList){
+
+    public static boolean checkPublisherListIsEmpty(List<Publisher> publisherList) {
         if (publisherList.isEmpty()) {
             System.out.println("There is not any publisher, please enter some"
                     + "publishers");
             return true;
         }
-        return false; 
+        return false;
     }
-    
-    public static boolean checkBookListIsEmpty (List<Book> bookList){
+
+    public static boolean checkBookListIsEmpty(List<Book> bookList) {
         if (bookList.isEmpty()) {
             System.out.println("Have no any Book");
             return true;
         }
-        return false; 
+        return false;
     }
-    
+
     public static byte getUserChoice(int firstOpt, int lastOpt) {
-        while(true){
+        while (true) {
             try {
                 byte userChoice = Byte.parseByte(sc.nextLine());
                 if (userChoice < firstOpt || userChoice > lastOpt) {
@@ -84,8 +84,8 @@ public class Validation {
                 System.out.print("Please choose the correct option above: ");
             }
         }
-    }        
-    
+    }
+
     public static <T> T getInput(T input) {
         boolean cont = true;
         do {
@@ -111,7 +111,7 @@ public class Validation {
 
         return input;
     }
-    
+
     public static <T> T getUpdateInput(T input) {
         boolean cont = true;
         do {
@@ -140,26 +140,27 @@ public class Validation {
 
         return input;
     }
-            
+
     public static int backToMainMenu(int mainChoice, boolean checkSave) {
         System.out.println("\nDo you want to go back to the main menu?");
         System.out.print("Your choice (1. Yes || 0. No): ");
         int choice = Validation.getUserChoice(0, 1);
-        if ((choice == 0 && checkSave == false) || choice == 0) {
-            System.out.println("\nWant to save to the file before leaving?");
-            System.out.println("If you choose \"No\", your changes will not be store");
-            System.out.print("Your choice(1. Yes || 0. No): ");
-            int subChoice = Validation.getUserChoice(0, 1);
-            if (subChoice == 1) {
-                PublisherServices.getInstance().saveThePublisherList();
-                BookServices.getInstance().saveTheBookList();
+        if (choice == 0) {
+            if (checkSave == false) {
+                System.out.println("\nWant to save to the file before leaving?");
+                System.out.println("If you choose \"No\", your changes will not be store");
+                System.out.print("Your choice(1. Yes || 0. No): ");
+                int subChoice = Validation.getUserChoice(0, 1);
+                if (subChoice == 1) {
+                    PublisherServices.getInstance().saveThePublisherList();
+                    BookServices.getInstance().saveTheBookList();
+                }
+                return 0;
+            } else {
+                return 0;
             }
-            
-            return 0;
         } else {
             return mainChoice;
         }
     }
-        
-        
 }

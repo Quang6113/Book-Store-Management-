@@ -28,7 +28,7 @@ public class BookServices {
     private BookServices() {
         bl.loadFromFile(f);
     }
-    
+
     public static BookServices getInstance() {
         return bs;
     }
@@ -39,7 +39,7 @@ public class BookServices {
 
     public void create(List<Publisher> publisherList) {
         System.out.println("\n----CREATE A BOOK----");
-        if (publisherList.isEmpty()) {    
+        if (publisherList.isEmpty()) {
             System.out.println("There is not any publisher, please enter  some "
                     + "publishers before create books");
             System.out.println("Fail!");
@@ -48,7 +48,7 @@ public class BookServices {
 
         if (bl.addBook(bl.createBook(publisherList))) {
             System.out.println("Success!");
-        }else{
+        } else {
             System.out.println("Fail!");
         }
     }
@@ -64,34 +64,32 @@ public class BookServices {
         System.out.println("2. Search by a part of Book's name");
         System.out.print("Your choice: ");
         int choice = Validation.getUserChoice(1, 2);
-        
-        //search by publisher's ID            
+
+        // search by publisher's ID
         if (choice == 1) {
             System.out.print("Enter Publisher's ID: ");
             List<Book> result = bl.searchBookByPublisherId(
                     id = Validation.getInput(id));
-            
-            if(result != null){
+
+            if (result != null) {
                 BookList bookList = new BookList(result);
                 bookList.displayBook(pIdMap);
-            }
-            else{
+            } else {
                 System.out.println("Have no any Book");
             }
-            
-        } 
 
-        //search by name
+        }
+
+        // search by name
         else {
-            System.out.print("Enter a part of Book's name: ");           
+            System.out.print("Enter a part of Book's name: ");
             List<Book> result = bl.searchBookByName(
                     name = Validation.getInput(name));
-            
-            if(result != null){
+
+            if (result != null) {
                 BookList bookList = new BookList(result);
                 bookList.displayBook(pIdMap);
-            }
-            else{
+            } else {
                 System.out.println("Have no any Book");
             }
         }
@@ -120,11 +118,11 @@ public class BookServices {
             System.out.println("Fail!");
             return;
         }
-        
+
         System.out.print("Enter Book's ID: ");
-        if(bl.deleteBook(bl.searchBookById(id = Validation.getInput(id)))){
+        if (bl.deleteBook(bl.searchBookById(id = Validation.getInput(id)))) {
             System.out.println("Success!");
-        }else{
+        } else {
             System.out.println("Fail!");
         }
     }
@@ -135,8 +133,7 @@ public class BookServices {
         System.out.println("File location: " + f.getAbsolutePath());
         if (bl.saveToFile(f)) {
             System.out.println("Success");
-        }
-        else{
+        } else {
             System.out.println("Fail");
         }
     }

@@ -74,7 +74,7 @@ public class PublisherServices {
             return;
         }
 
-        //sort & display
+        // sort & display
         tmpPublisherList.displayPublisher();
     }
 }
