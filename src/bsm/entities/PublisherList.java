@@ -57,26 +57,56 @@ public class PublisherList {
         // Id
         System.out.print("Publisher's ID (Pxxxxx): ");
         while (Validation.checkPIdAnyMatch((id = Validation.getInput(id)), publisherList)
-                && !Validation.checkPId(id)) {
-            System.err.println("Invalid!");
+                || !Validation.checkPId(id)) {
+            if (Validation.checkPIdAnyMatch(id, publisherList) == true) {
+                System.out.println("Id has been used");
+            }
+
+            if (Validation.checkPId(id) == false) {
+                System.err.println("Wrong format!");
+            }
             System.out.print("Enter again: ");
         }
 
         // Name
         System.out.println("Publisher's Name (5-30 characters): ");
         while (!Validation.checkName(name = Validation.getInput(name))) {
-            System.err.println("Invalid!");
+            System.err.println("Wrong format!");
             System.out.print("Enter again: ");
         }
 
         // Phone
         System.out.println("Phone number (10-12 digits): ");
         while (!Validation.checkPhone(phoneNum = Validation.getInput(phoneNum))) {
-            System.err.println("Invalid!");
+            System.err.println("Wrong format!");
             System.out.print("Enter again: ");
         }
 
         return new Publisher(id, name, phoneNum);
+    }
+
+    public Publisher searchById(List<Publisher> publisherList) {
+        System.out.print("\nEnter Publisher's ID: ");
+        while (!Validation.checkPId(id = Validation.getInput(id))) {
+            System.out.println("Wrong format!");
+            System.out.println("Enter gain: ");
+        }
+
+        for (Publisher x : publisherList) {
+            if (x.getId().equals(id)) {
+                System.out.println("---" + x.getId() + " - " + x.getName() + "---");
+                return x;
+            }
+        }
+        System.out.println("Publisher's Id does not exist");
+        return null;
+    }
+
+    public boolean deletePublisher(Publisher p) {
+        if (p != null) {
+            return publisherList.remove(p);
+        }
+        return false;
     }
 
     public boolean saveToFile(File f) {
@@ -104,10 +134,10 @@ public class PublisherList {
 
         try (FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr)) {
-            String details;
+            String line;
 
-            while ((details = br.readLine()) != null) {
-                StringTokenizer stk = new StringTokenizer(details, ",");
+            while ((line = br.readLine()) != null) {
+                StringTokenizer stk = new StringTokenizer(line, ",");
                 publisherList.add(new Publisher(stk.nextToken(), stk.nextToken(), stk.nextToken()));
             }
 
@@ -119,30 +149,6 @@ public class PublisherList {
         return false;
     }
 
-    public Publisher searchById(List<Publisher> publisherList) {
-        System.out.print("\nEnter Publisher's ID: ");
-        while (!Validation.checkPId(id = Validation.getInput(id))) {
-            System.out.println("Invalid!");
-            System.out.println("Enter gain: ");
-        }
-
-        for (Publisher x : publisherList) {
-            if (x.getId().equals(id)) {
-                System.out.println("---" + x.getId() + " - " + x.getName() + "---");
-                return x;
-            }
-        }
-        System.out.println("Publisher's Id does not exist");
-        return null;
-    }
-
-    public boolean deletePublisher(Publisher p) {
-        if (p != null) {
-            return publisherList.remove(p);
-        }
-        return false;
-    }
-
     public void displayPublisher() {
         System.out.println("+------+------------------------------+------------+");
         System.out.printf("|%s%4s|", "Id", " ");
@@ -150,7 +156,7 @@ public class PublisherList {
         System.out.printf("%s%7s|\n", "Phone", " ");
         System.out.println("+------+------------------------------+------------+");
 
-        publisherList.sort((Publisher p1, Publisher p2) -> p1.getName().compareTo(p2.getName()));
+        // sort by name
 
         publisherList.forEach((e) -> {
             e.display();

@@ -68,11 +68,12 @@ public class BookStoreManagement {
                     switch (subChoice) {
                         case 1:
                             bs.create(ps.getList().getPublisherList());
-                            choice = Validation.backToMainMenu(choice, checkSave);
                             checkSave = false;
+                            choice = Validation.backToMainMenu(choice, checkSave);
                             break;
                         case 2:
-                            bs.search(ps.getList().getPublisherList(),
+                            bs.search(bs.getList().getBookList(),
+                                    ps.getList().getPublisherList(),
                                     ps.getList().getPIdMap());
                             choice = Validation.backToMainMenu(choice, checkSave);
                             break;

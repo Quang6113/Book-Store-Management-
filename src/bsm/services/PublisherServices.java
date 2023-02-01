@@ -7,6 +7,8 @@ package bsm.services;
 
 import bsm.entities.Publisher;
 import bsm.entities.PublisherList;
+import bsm.utils.Validation;
+
 import java.io.File;
 import java.util.List;
 
@@ -43,8 +45,12 @@ public class PublisherServices {
 
     public void delete(List<Publisher> publisherList) {
         System.out.println("\n---DELETE PUBLISHER INFORMATION---");
+        if (Validation.checkPublisherListIsEmpty(publisherList)) {
+            System.out.println("Fail!");
+            return;
+        }
 
-        System.out.println("Valid publisher");
+        System.out.println("\n--Created publishers--");
         publisherList.forEach((e) -> {
             System.out.println(e.getId() + " - " + e.getName());
         });
@@ -69,12 +75,13 @@ public class PublisherServices {
     public void printThePublisherListFromFiles() {
         System.out.println("\n---PRINT THE PUBLISHERS LIST FROM FILE---");
         PublisherList tmpPublisherList = new PublisherList();
-        if (!tmpPublisherList.loadFromFile(f)) {
-            System.out.println("Cannot load!");
+        if (tmpPublisherList.loadFromFile(f)) {
+            tmpPublisherList.getPublisherList()
+                    .sort((Publisher p1, Publisher p2) -> p1.getName().compareTo(p2.getName()));
+            tmpPublisherList.displayPublisher();
+        } else {
+            System.out.println("Fail");
             return;
         }
-
-        // sort & display
-        tmpPublisherList.displayPublisher();
     }
 }

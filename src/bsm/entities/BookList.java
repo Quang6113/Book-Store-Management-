@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -48,46 +49,53 @@ public class BookList {
         System.out.println("Make sure the publisher is created before adding "
                 + "this book!");
 
-        System.out.println("Valid publisher");
+        System.out.println("\n--Created publishers--");
         publisherList.forEach((e) -> {
             System.out.println(e.getId() + " - " + e.getName());
         });
 
         System.out.print("\nPublisher's ID (Pxxxxx): ");
         while (!Validation.checkPId(pId = Validation.getInput(pId))) {
-            System.err.println("Invalid!");
+            System.err.println("Wrong format!");
             System.out.print("Enter again: ");
         }
-        if (Validation.checkPIdNoneMatch(pId, publisherList)) {
-            System.err.println("Publisher's Id is not found");
-        } // noneMatch true, return null
+        if (!Validation.checkPIdAnyMatch(pId, publisherList)) {
+            System.err.println("Publisher's Id is not found!");
+        } // anyMatch false, return null
         else {
             // Id
             System.out.print("Book's ID (Bxxxxx): ");
-            while (!(Validation.checkBIdNoneMatch((id = Validation.getInput(id)), bookList))
-                    && Validation.checkBId(id)) {
-                System.err.println("Invalid!");
+            while (Validation.checkBIdAnyMatch((id = Validation.getInput(id)), bookList)
+                    || !Validation.checkBId(id)) {
+                if (Validation.checkBId(id) == false) {
+                    System.err.println("Wrong format!");
+                }
+
+                if (Validation.checkBIdAnyMatch(id, bookList) == true) {
+                    System.out.println("The Id has been used");
+                }
+
                 System.out.print("Enter again: ");
             }
 
             // Name
             System.out.print("Name (5-30 characters): ");
             while (!Validation.checkName(name = Validation.getInput(name))) {
-                System.err.println("Invalid!");
+                System.err.println("Wrong format!");
                 System.out.print("Enter again: ");
             }
 
             // Price
             System.out.print("Price (greater than 0): ");
             while (!Validation.checkPrice(price = Validation.getInput(price))) {
-                System.err.println("Invalid!");
+                System.err.println("Wrong format!");
                 System.out.print("Enter again: ");
             }
 
             // Quantity
             System.out.print("Quantity (greater than 0): ");
-            while (!Validation.checkPrice(quantity = Validation.getInput(quantity))) {
-                System.err.println("Invalid!");
+            while (!Validation.checkQuantity(quantity = Validation.getInput(quantity))) {
+                System.err.println("Wrong format!");
                 System.out.print("Enter again: ");
             }
 
@@ -113,53 +121,66 @@ public class BookList {
         return false;
     }
 
-    public Book searchBookById(String id) {
-        while (!Validation.checkBId(id)) {
-            System.out.println("Invalid!");
-            System.out.println("Enter gain: ");
+    public Book searchBookById(List<Book> bookList) {
+        // Id
+        System.out.print("Enter Book's ID: ");
+        while (!Validation.checkBId(id = Validation.getInput(id))) {
+            System.out.println("Wrong format!");
+            System.out.print("Enter again: ");
         }
 
-        for (Book x : bookList) {
-            if (x.getId().equals(id)) {
-                System.out.println("---" + x.getId() + " - "
-                        + x.getName() + "---\n");
-                return x;
-            }
+        // search
+        Book b = bookList.stream()
+                .filter((x) -> x.getId().equals(id))
+                .findAny()
+                .orElse(null);
+
+        // print
+        if (b != null) {
+            System.out.println("---" + b.getId() + " - " + b.getName() + " - " + b.getPId() + "---");
         }
-        System.out.println("Book's Name does not exist");
-        return null;
+
+        return b;
     }
 
-    public List<Book> searchBookByPublisherId(String id) {
-        while (!Validation.checkPId(id)) {
-            System.out.println("Invalid!");
-            System.out.println("Enter gain: ");
+    public List<Book> searchBookByPublisherId(List<Book> bookList, List<Publisher> publisherList) {
+        // PId
+        System.out.println("\n--Created publishers--");
+        publisherList.forEach((e) -> {
+            System.out.println(e.getId() + " - " + e.getName());
+        });
+
+        System.out.print("\nEnter Publisher's ID: ");
+        while (!Validation.checkPId(id = Validation.getInput(id))) {
+            System.out.println("Wrong format!");
+            System.out.print("Enter again: ");
         }
 
-        List<Book> result = new ArrayList<>();
-        for (Book x : bookList) {
-            if (x.getPId().equals(id)) {
-                result.add(x);
-            }
-        }
+        // list of search results
+        List<Book> result = bookList.stream()
+                .filter(x -> x.getPId().equalsIgnoreCase(id))
+                .collect(Collectors.toList());
 
         if (!result.isEmpty()) {
-            result.sort((Book b1, Book b2) -> b1.getName().compareToIgnoreCase(b2.getName()));
             return result;
         }
         return null;
     }
 
-    public List<Book> searchBookByName(String name) {
-        List<Book> result = new ArrayList<>();
-        for (Book x : bookList) {
-            if (x.getName().toUpperCase().contains(name.toUpperCase())) {
-                result.add(x);
-            }
+    public List<Book> searchBookByName(List<Book> bookList) {
+        // Name
+        System.out.print("\nEnter a part of Book's name: ");
+        while ((name = Validation.getInput(name)).isEmpty()) {
+            System.out.println("Wrong format!");
+            System.out.print("Enter again: ");
         }
 
+        // list of search results
+        List<Book> result = bookList.stream()
+                .filter(x -> x.getName().toUpperCase().contains(name.toUpperCase()))
+                .collect(Collectors.toList());
+
         if (!result.isEmpty()) {
-            result.sort((Book b1, Book b2) -> b1.getName().compareToIgnoreCase(b2.getName()));
             return result;
         }
         return null;
@@ -175,6 +196,7 @@ public class BookList {
 
     public boolean updateBook(List<Publisher> publisherList, Book b) {
         if (b != null) {
+            // get old book
             id = b.getId();
             name = b.getName();
             status = b.getStatus();
@@ -182,39 +204,54 @@ public class BookList {
             quantity = b.getQuantity();
             price = b.getPrice();
 
-            System.out.println("Valid publisher");
+            System.out.println("\n--Created publishers--");
             publisherList.forEach((e) -> {
                 System.out.println(e.getId() + " - " + e.getName());
             });
 
+            // Update
             System.out.println("\nPlease create publisher before update this book!");
             System.out.print("Publisher's ID (Pxxxxx): ");
-            while (!Validation.checkPId(pId = Validation.getUpdateInput(pId))) {
-                System.err.println("Invalid!");
+            while (((pId = Validation.getUpdateInput(pId)) != b.getPId())
+                    && !Validation.checkPId(pId)) {
+                System.err.println("Wrong format!");
                 System.out.print("Enter again: ");
             }
 
-            if (Validation.checkPIdAnyMatch(id, publisherList)) {
-                System.err.println("Please create publisher before update this book!");
+            if ((pId != b.getPId()) && !Validation.checkPIdAnyMatch(pId, publisherList)) {
+                System.err.println("Publisher's Id is not found!");
             } else {
+                // Id
+                System.out.print("Book's ID (Bxxxxx): ");
+                while (((id = Validation.getUpdateInput(id)) != b.getId())
+                        && (Validation.checkBIdAnyMatch(id, bookList) || !Validation.checkBId(id))) {
+                    if (Validation.checkBIdAnyMatch(id, bookList) == false) {
+                        System.err.println("Id has been used");
+                    }
+                    if (Validation.checkBId(id) == false) {
+                        System.err.println("Wrong format!");
+                    }
+                    System.out.print("Enter again: ");
+                }
+
                 // Name
                 System.out.print("Name (5-30 characters): ");
                 while (!Validation.checkName(name = Validation.getUpdateInput(name))) {
-                    System.err.println("Invalid!");
+                    System.err.println("Wrong format!");
                     System.out.print("Enter again: ");
                 }
 
                 // Price
                 System.out.print("Price (greater than 0): ");
                 while (!Validation.checkPrice(price = Validation.getUpdateInput(price))) {
-                    System.err.println("Invalid!");
+                    System.err.println("Wrong format!");
                     System.out.print("Enter again: ");
                 }
 
                 // Quantity
                 System.out.print("Quantity (greater than 0): ");
                 while (!Validation.checkPrice(quantity = Validation.getUpdateInput(quantity))) {
-                    System.err.println("Invalid!");
+                    System.err.println("Wrong format!");
                     System.out.print("Enter again: ");
                 }
 
@@ -232,6 +269,8 @@ public class BookList {
                         status = b.getStatus();
                 }
 
+                // set new book
+                b.setId(id);
                 b.setName(name);
                 b.setPrice(price);
                 b.setPId(pId);
@@ -258,7 +297,6 @@ public class BookList {
         System.out.println("+------+------------------------------+------------+--"
                 + "--------+--------------------+------------------------------+-"
                 + "------------+");
-        bookList.sort((Book b1, Book b2) -> b1.getQuantity() - b2.getQuantity());
 
         bookList.forEach((e) -> {
             e.display(PIdMap);
@@ -270,10 +308,10 @@ public class BookList {
 
         try (FileWriter fw = new FileWriter(f, append);
                 PrintWriter pw = new PrintWriter(fw)) {
-            for (Book e : bookList) {
-                pw.println(e.getId() + "," + e.getName() + "," + e.getPrice()
-                        + "," + e.getQuantity() + "," + e.getStatus() + "," + e.getPId());
-            }
+            bookList.forEach(x -> {
+                pw.println(x.getId() + "," + x.getName() + "," + x.getPrice()
+                        + "," + x.getQuantity() + "," + x.getStatus() + "," + x.getPId());
+            });
 
             return true;
         } catch (Exception e) {
@@ -290,10 +328,10 @@ public class BookList {
 
         try (FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr)) {
-            String details;
+            String line;
 
-            while ((details = br.readLine()) != null) {
-                StringTokenizer stk = new StringTokenizer(details, ",");
+            while ((line = br.readLine()) != null) {
+                StringTokenizer stk = new StringTokenizer(line, ",");
                 bookList.add(new Book(stk.nextToken(), stk.nextToken(),
                         Double.parseDouble(stk.nextToken()), Integer.parseInt(stk.nextToken()),
                         stk.nextToken(), stk.nextToken()));

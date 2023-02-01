@@ -76,8 +76,8 @@ public class Book {
         return pId;
     }
 
-    public void setPId(String PID) {
-        this.pId = PID;
+    public void setPId(String pID) {
+        this.pId = pID;
     }
 
     public double SubTotal(double price, int quantity) {
