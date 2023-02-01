@@ -23,10 +23,6 @@ public class Validation {
         return phone.matches("\\d{10,12}");
     }
 
-    public static boolean checkPIdNoneMatch(String id, List<Publisher> publisherList) {
-        return publisherList.stream().noneMatch((e) -> (e.getId().equals(id)));
-    }
-
     public static boolean checkPIdAnyMatch(String id, List<Publisher> publisherList) {
         return publisherList.stream().anyMatch((e) -> (e.getId().equals(id)));
     }
@@ -35,8 +31,8 @@ public class Validation {
         return id.matches("P\\d{5}");
     }
 
-    public static boolean checkBIdNoneMatch(String id, List<Book> bookList) {
-        return bookList.stream().noneMatch((e) -> (e.getId().equals(id)));
+    public static boolean checkBIdAnyMatch(String id, List<Book> bookList) {
+        return bookList.stream().anyMatch((e) -> (e.getId().equals(id)));
     }
 
     public static boolean checkBId(String id) {
@@ -105,7 +101,7 @@ public class Validation {
             } catch (NumberFormatException ne) {
                 System.err.print("Wrong format, enter again: ");
             } catch (Exception e) {
-                System.out.print("Again: ");
+                System.out.print("Enter again: ");
             }
         } while (cont);
 
@@ -134,7 +130,7 @@ public class Validation {
             } catch (NumberFormatException ne) {
                 System.out.print("Wrong format, enter again: ");
             } catch (Exception e) {
-                System.out.print("Again: ");
+                System.out.print("Enter again: ");
             }
         } while (cont);
 
