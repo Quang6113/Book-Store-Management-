@@ -53,7 +53,7 @@ public class Validation {
 
     public static boolean checkPublisherListIsEmpty(List<Publisher> publisherList) {
         if (publisherList.isEmpty()) {
-            System.out.println("There is not any publisher, please enter some"
+            System.err.println("There is not any publisher, please enter some"
                     + "publishers");
             return true;
         }
@@ -62,7 +62,7 @@ public class Validation {
 
     public static boolean checkBookListIsEmpty(List<Book> bookList) {
         if (bookList.isEmpty()) {
-            System.out.println("Have no any Book");
+            System.err.println("Have no any Book");
             return true;
         }
         return false;
@@ -77,7 +77,7 @@ public class Validation {
                 }
                 return userChoice;
             } catch (Exception e) {
-                System.out.print("Please choose the correct option above: ");
+                System.err.print("Please choose the correct option above: ");
             }
         }
     }
@@ -128,7 +128,7 @@ public class Validation {
                     return (T) stringOut;
                 }
             } catch (NumberFormatException ne) {
-                System.out.print("Wrong format, enter again: ");
+                System.err.print("Wrong format, enter again: ");
             } catch (Exception e) {
                 System.out.print("Enter again: ");
             }
@@ -140,23 +140,27 @@ public class Validation {
     public static int backToMainMenu(int mainChoice, boolean checkSave) {
         System.out.println("\nDo you want to go back to the main menu?");
         System.out.print("Your choice (1. Yes || 0. No): ");
-        int choice = Validation.getUserChoice(0, 1);
+        int choice = getUserChoice(0, 1);
         if (choice == 0) {
             if (checkSave == false) {
-                System.out.println("\nWant to save to the file before leaving?");
-                System.out.println("If you choose \"No\", your changes will not be store");
-                System.out.print("Your choice(1. Yes || 0. No): ");
-                int subChoice = Validation.getUserChoice(0, 1);
-                if (subChoice == 1) {
-                    PublisherServices.getInstance().saveThePublisherList();
-                    BookServices.getInstance().saveTheBookList();
-                }
+                saveBeforeLeaving();
                 return 0;
             } else {
                 return 0;
             }
         } else {
             return mainChoice;
+        }
+    }
+
+    public static void saveBeforeLeaving() {
+        System.out.println("\nWant to save to the file before leaving?");
+        System.out.println("If you choose \"No\", your changes will not be saved");
+        System.out.print("Your choice(1. Yes || 0. No): ");
+        int subChoice = getUserChoice(0, 1);
+        if (subChoice == 1) {
+            PublisherServices.getInstance().saveThePublisherList();
+            BookServices.getInstance().saveTheBookList();
         }
     }
 }
