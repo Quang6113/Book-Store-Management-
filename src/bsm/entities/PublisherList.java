@@ -53,7 +53,6 @@ public class PublisherList {
     }
 
     public Publisher createPublisher() {
-
         // Id
         System.out.print("Publisher's ID (Pxxxxx): ");
         while (Validation.checkPIdAnyMatch((id = Validation.getInput(id)), publisherList)
@@ -69,14 +68,16 @@ public class PublisherList {
         }
 
         // Name
-        System.out.println("Publisher's Name (5-30 characters): ");
+        System.out.print("Publisher's Name (5-30 characters): ");
         while (!Validation.checkName(name = Validation.getInput(name))) {
             System.err.println("Wrong format!");
             System.out.print("Enter again: ");
         }
+        name = name.substring(0,1).toUpperCase() 
+        + name.substring(1, name.length());
 
         // Phone
-        System.out.println("Phone number (10-12 digits): ");
+        System.out.print("Phone number (10-12 digits): ");
         while (!Validation.checkPhone(phoneNum = Validation.getInput(phoneNum))) {
             System.err.println("Wrong format!");
             System.out.print("Enter again: ");
@@ -89,7 +90,7 @@ public class PublisherList {
         System.out.print("\nEnter Publisher's ID: ");
         while (!Validation.checkPId(id = Validation.getInput(id))) {
             System.out.println("Wrong format!");
-            System.out.println("Enter gain: ");
+            System.out.print("Enter again: ");
         }
 
         Publisher p = publisherList.stream()
@@ -119,9 +120,11 @@ public class PublisherList {
 
         boolean append = false;
 
-        try (FileWriter fw = new FileWriter(f, append); // override: append
+        try (FileWriter fw = new FileWriter(f, append);
                 PrintWriter pw = new PrintWriter(fw)) {
-            publisherList.forEach((e) -> pw.println(e.getId() + "," + e.getName() + "," + e.getPhoneNum()));
+            publisherList.forEach((e) -> {
+                pw.println(e.getId() + "," + e.getName() + "," + e.getPhoneNum());
+            });
 
             return true;
         } catch (Exception e) {
@@ -132,7 +135,7 @@ public class PublisherList {
     }
 
     public boolean loadFromFile(File f) {
-        if (!f.exists()) {
+        if (!f.exists() || f.length() == 0) {
             return false;
         }
 

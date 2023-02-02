@@ -72,7 +72,7 @@ public class BookList {
                 }
 
                 if (Validation.checkBIdAnyMatch(id, bookList) == true) {
-                    System.out.println("The Id has been used");
+                    System.err.println("The Id has been used");
                 }
 
                 System.out.print("Enter again: ");
@@ -84,6 +84,8 @@ public class BookList {
                 System.err.println("Wrong format!");
                 System.out.print("Enter again: ");
             }
+            name = name.substring(0,1).toUpperCase() 
+            + name.substring(1, name.length());
 
             // Price
             System.out.print("Price (greater than 0): ");
@@ -138,8 +140,9 @@ public class BookList {
         // print
         if (b != null) {
             System.out.println("CURRENT BOOK: " + b.getId() + " - " + b.getName() + " - " + b.getPId());
+        } else {
+            System.out.println("Book's Name does not exist");
         }
-
         return b;
     }
 
@@ -158,7 +161,7 @@ public class BookList {
 
         // list of search results
         List<Book> result = bookList.stream()
-                .filter(x -> x.getPId().equalsIgnoreCase(id))
+                .filter((x) -> (x.getPId().equalsIgnoreCase(id)))
                 .collect(Collectors.toList());
 
         if (!result.isEmpty()) {
@@ -177,7 +180,7 @@ public class BookList {
 
         // list of search results
         List<Book> result = bookList.stream()
-                .filter(x -> x.getName().toUpperCase().contains(name.toUpperCase()))
+                .filter((x) -> (x.getName().toUpperCase().contains(name.toUpperCase())))
                 .collect(Collectors.toList());
 
         if (!result.isEmpty()) {
@@ -240,6 +243,8 @@ public class BookList {
                     System.err.println("Wrong format!");
                     System.out.print("Enter again: ");
                 }
+                name = name.substring(0,1).toUpperCase() 
+                + name.substring(1, name.length());
 
                 // Price
                 System.out.print("Price (greater than 0): ");
@@ -322,7 +327,7 @@ public class BookList {
     }
 
     public boolean loadFromFile(File f) {
-        if (!f.exists()) {
+        if (!f.exists() || f.length() == 0) {
             return false;
         }
 
