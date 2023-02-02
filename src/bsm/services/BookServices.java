@@ -49,7 +49,7 @@ public class BookServices {
         if (bl.addBook(bl.createBook(publisherList))) {
             System.out.println("Success!");
         } else {
-            System.out.println("Fail!");
+            System.err.println("Fail!");
         }
     }
 
@@ -64,8 +64,8 @@ public class BookServices {
         System.out.println("2. Search by a part of Book's name");
         System.out.print("Your choice: ");
         int choice = Validation.getUserChoice(1, 2);
-        List<Book> list = null;
 
+        List<Book> list = null;
         // search by publisher's ID
         if (choice == 1) {
             list = bl.searchBookByPublisherId(bookList, publisherList);
@@ -74,14 +74,13 @@ public class BookServices {
         else {
             list = bl.searchBookByName(bookList);
         }
-
         // print result
         if (list != null) {
             BookList result = new BookList(list);
             list.sort((Book b1, Book b2) -> b1.getName().compareToIgnoreCase(b2.getName()));
             result.displayBook(pIdMap);
         } else {
-            System.out.println("Have no any Book");
+            System.err.println("Have no any Book");
         }
     }
 
@@ -95,7 +94,7 @@ public class BookServices {
         if (bl.updateBook(publisherList, bl.searchBookById(bookList))) {
             System.out.println("Success!");
         } else {
-            System.out.println("Fail!");
+            System.err.println("Fail!");
         }
 
     }
@@ -107,34 +106,34 @@ public class BookServices {
             return;
         }
 
-        System.out.print("Enter Book's ID: ");
         if (bl.deleteBook(bl.searchBookById(bookList))) {
             System.out.println("Success!");
         } else {
-            System.out.println("Fail!");
+            System.err.println("Fail!");
         }
     }
 
     public void saveTheBookList() {
         System.out.println("\n----SAVE THE BOOKS LIST TO FILE----");
-
         if (bl.saveToFile(f)) {
             System.out.println("File name: " + f.getName());
             System.out.println("File location: " + f.getAbsolutePath());
             System.out.println("Success!");
         } else {
-            System.out.println("Fail!");
+            System.err.println("Error");
         }
     }
 
     public void printTheBookListFromFile(HashMap<String, String> pIdMap) {
         System.out.println("\n----PRINT THE BOOKS LIST FROM FILE----");
+        System.out.println(
+                "Please save your changes first if you want to see them printed from the file");
         BookList tmpBookList = new BookList();
-        if (!tmpBookList.loadFromFile(f)) {
-            System.out.println("Fail");
-        } else {
+        if (tmpBookList.loadFromFile(f)) {
             tmpBookList.getBookList().sort((Book b1, Book b2) -> b1.getQuantity() - b2.getQuantity());
             tmpBookList.displayBook(pIdMap);
+        } else {
+            System.err.println("Error");
         }
 
     }

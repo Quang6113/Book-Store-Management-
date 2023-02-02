@@ -68,19 +68,21 @@ public class PublisherServices {
             System.out.println("File name: " + f.getName());
             System.out.println("File location: " + f.getAbsolutePath());
         } else {
-            System.out.println("Fail!");
+            System.err.println("Error");
         }
     }
 
     public void printThePublisherListFromFiles() {
         System.out.println("\n---PRINT THE PUBLISHERS LIST FROM FILE---");
+        System.out.println(
+                "Please save your changes first if you want to see them printed from the file");
         PublisherList tmpPublisherList = new PublisherList();
         if (tmpPublisherList.loadFromFile(f)) {
             tmpPublisherList.getPublisherList()
                     .sort((Publisher p1, Publisher p2) -> p1.getName().compareTo(p2.getName()));
             tmpPublisherList.displayPublisher();
         } else {
-            System.out.println("Fail");
+            System.err.println("Error");
             return;
         }
     }
