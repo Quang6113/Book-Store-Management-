@@ -100,6 +100,11 @@ public class BookStoreManagement {
                             break;
                     }
                     break;
+                default:
+                    if (checkSave == false) {
+                        Validation.saveBeforeLeaving();
+                    }
+                    break;
             }
         } while (choice >= 1 && choice <= 2);
     }
